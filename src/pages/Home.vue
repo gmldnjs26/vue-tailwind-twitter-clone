@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <div class="flex h-screen container mx-auto">
@@ -102,8 +103,78 @@
       </div>
       <div class="flex-1">
         <div class="flex h-screen">
-          <!-- main contetnts -->
-          <Notification />
+          <!-- Main tweets -->
+          <div class="flex-1 flex-col border-r border-gray-100 overflow-y-auto">
+            <!-- page title -->
+            <div class="border-b border-gray-100 px-3 py-2 font-bold text-lg">
+              Home
+            </div>
+            <!-- tweeting section -->
+            <div class="flex px-3 py-3 border-b-2 border-gray-100">
+              <img
+                src="https://picsum.photos/100"
+                class="w-10 h-10 rounded-full"
+              />
+              <div class="flex flex-col w-full">
+                <textarea
+                  class="w-full text-lg font-bold focus:outline-none ml-3 mb-3 resize-none"
+                  placeholder="What's happening"
+                />
+                <div class="text-right">
+                  <button
+                    class="text-white bg-primary rounded-full font-bold hover:bg-dark w-20 h-10"
+                  >
+                    트윗
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- tweets section -->
+            <div class="mt-3 border-b border-gray-100">
+              　
+              <div v-for="tweet in 10" :key="tweet" class="flex px-3 py-3">
+                <img
+                  src="https://picsum.photos/100"
+                  class="w-10 h-10 rounded-full"
+                />
+                <div class="flex flex-col mx-2 space-y-1">
+                  <div class="space-x-2">
+                    <span class="text-sm font-bold">조국</span>
+                    <span class="text-xs font-thin">@imleesky</span>
+                    <span class="text-xs font-thin">・7분전</span>
+                  </div>
+                  <div>
+                    content content content content content content content
+                  </div>
+                  <div class="flex justify-between text-gray-500">
+                    <div
+                      class="hover:bg-blue-50 hover:text-primary rounded-full p-2"
+                    >
+                      <i class="far fa-comment"></i>
+                      <span class="ml-1 text-sm">11</span>
+                    </div>
+                    <div
+                      class="hover:bg-blue-50 hover:text-green-500 rounded-full p-2"
+                    >
+                      <i class="far fa-retweet"></i>
+                      <span class="ml-1 text-sm">11</span>
+                    </div>
+                    <div
+                      class="hover:bg-blue-50 hover:text-red-500 rounded-full p-2"
+                    >
+                      <i class="far fa-heart"></i>
+                      <span class="ml-1 text-sm">11</span>
+                    </div>
+                    <div
+                      class="hover:bg-blue-50 hover:text-yellow-500 rounded-full p-2"
+                    >
+                      <i class="far fa-share-square"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- trend section -->
           <Trends />
         </div>
@@ -113,13 +184,13 @@
 </template>
 
 <script>
+import Notifications from "./Notification.vue";
 import Trends from "./components/Trends.vue";
-import Notification from "./pages/Notification.vue";
 
 export default {
   components: {
+    Notifications,
     Trends,
-    Notification,
   },
   setup() {},
 };
