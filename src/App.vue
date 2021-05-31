@@ -103,9 +103,7 @@
       <div class="flex-1">
         <div class="flex h-screen">
           <!-- main contetnts -->
-          <Notification />
-          <!-- trend section -->
-          <Trends />
+          <Profile />
         </div>
       </div>
     </div>
@@ -115,11 +113,15 @@
 <script>
 import Trends from "./components/Trends.vue";
 import Notification from "./pages/Notification.vue";
+import Messages from "./pages/Messages.vue";
+import Profile from "./pages/Profile.vue";
 
 export default {
   components: {
     Trends,
     Notification,
+    Messages,
+    Profile,
   },
   setup() {},
 };
