@@ -5,7 +5,7 @@
     <div class="relative">
       <i class="absolute left-3 top-3 fa fa-search text-gray-500" />
       <input
-        class="w-full pl-10 p-2 h-10 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:bg-white"
+        class="w-full pl-10 p-2 h-10 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:bg-white focus:shadow-2xl"
         type="text"
         placeholder="Search Twitter"
       />

@@ -12,32 +12,35 @@
           ></i>
           <!-- sidememu icons -->
           <div class="flex flex-col text-lg items-start">
-            <div
+            <router-link
+              to="/"
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
               <i class="fas fa-fw fa-home"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Home</span>
-            </div>
+            </router-link>
             <div
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
               <i class="fas fa-fw fa-hashtag"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Explore</span>
             </div>
-            <div
+            <router-link
+              to="/notification"
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
               <i class="fas fa-fw fa-bell"></i>
               <span class="ml-5 text-lg hidden lg:inline-block"
                 >Notifications</span
               >
-            </div>
-            <div
+            </router-link>
+            <router-link
+              to="/messages"
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
               <i class="fas fa-fw fa-envelope"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Messages</span>
-            </div>
+            </router-link>
             <div
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
@@ -50,12 +53,13 @@
               <i class="fas fa-fw fa-list-alt"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Lists</span>
             </div>
-            <div
+            <router-link
+              to="/profile"
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
               <i class="fas fa-fw fa-user"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Profile</span>
-            </div>
+            </router-link>
             <div
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
@@ -103,7 +107,7 @@
       <div class="flex-1">
         <div class="flex h-screen">
           <!-- main contetnts -->
-          <Profile />
+          <router-view />
         </div>
       </div>
     </div>
@@ -111,20 +115,6 @@
 </template>
 
 <script>
-import Trends from "./components/Trends.vue";
-import Notification from "./pages/Notification.vue";
-import Messages from "./pages/Messages.vue";
-import Profile from "./pages/Profile.vue";
-
-export default {
-  components: {
-    Trends,
-    Notification,
-    Messages,
-    Profile,
-  },
-  setup() {},
-};
 </script>
 
 <style>
