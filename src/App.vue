@@ -32,49 +32,14 @@
           <!-- sidememu icons -->
           <div class="flex flex-col text-lg items-start">
             <router-link
-              to="/"
+              v-for="route in routes"
+              :to="route.path"
+              :key="route.name"
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
-              <i class="fas fa-fw fa-home"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">Home</span>
+              <i :class="route.icon"></i>
+              <span class="ml-5 text-lg hidden lg:inline-block">{{ route.title }}</span>
             </router-link>
-            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
-              <i class="fas fa-fw fa-hashtag"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">Explore</span>
-            </div>
-            <router-link
-              to="/notification"
-              class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
-            >
-              <i class="fas fa-fw fa-bell"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">Notifications</span>
-            </router-link>
-            <router-link
-              to="/messages"
-              class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
-            >
-              <i class="fas fa-fw fa-envelope"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">Messages</span>
-            </router-link>
-            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
-              <i class="fas fa-fw fa-bookmark"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">Bookmarks</span>
-            </div>
-            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
-              <i class="fas fa-fw fa-list-alt"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">Lists</span>
-            </div>
-            <router-link
-              to="/profile"
-              class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
-            >
-              <i class="fas fa-fw fa-user"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">Profile</span>
-            </router-link>
-            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
-              <i class="fas fa-fw fa-ellipsis-h"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block">More</span>
-            </div>
           </div>
           <!-- twitter button -->
           <div class="w-full flex justify-center">
@@ -114,6 +79,20 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import { ref, onBeforeMount } from 'vue'
+import router from './router'
+export default {
+  setup() {
+    const routes = ref([])
 
-<style></style>
+    onBeforeMount(() => {
+      routes.value = router.options.routes
+    })
+
+    return {
+      routes,
+    }
+  },
+}
+</script>
