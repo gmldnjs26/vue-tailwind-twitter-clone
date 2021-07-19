@@ -5,20 +5,25 @@
     <div class="relative">
       <i class="absolute left-3 top-3 fa fa-search text-gray-500" />
       <input
-        class="w-full pl-10 p-2 h-10 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:bg-white focus:shadow-2xl"
+        class="
+          w-full
+          pl-10
+          p-2
+          h-10
+          rounded-full
+          bg-gray-100
+          text-sm
+          focus:outline-none focus:ring-1 focus:ring-primary focus:bg-white focus:shadow-2xl
+        "
         type="text"
         placeholder="Search Twitter"
       />
     </div>
     <!-- Trend For Me -->
-    <div
-      class="flex px-2 py-4 border-b border-gray-100 items-center justify-between"
-    >
+    <div class="flex px-2 py-4 border-b border-gray-100 items-center justify-between">
       <span class="font-bold text-lg"> 나를 위한 트렌드 </span>
       <span>
-        <i
-          class="fas fa-cog text-primary hover:bg-blue-100 rounded-full p-0.5"
-        ></i>
+        <i class="fas fa-cog text-primary hover:bg-blue-100 rounded-full p-0.5"></i>
       </span>
     </div>
     <!-- trending in Korea -->
@@ -35,16 +40,22 @@
       <div class="text-gray-400">3,441 트윗</div>
     </div>
     <div class="py-1 px-1">
-      <button class="text-primary hover:bg-blue-100 rounded-full w-20 h-10">
-        더 보기
-      </button>
+      <button class="text-primary hover:bg-blue-100 rounded-full w-20 h-10">더 보기</button>
     </div>
 
     <!-- Follow Recomanded -->
     <div class="py-2">
       <div class="font-bold text-lg">팔로우 추천</div>
       <div
-        class="flex text-sm py-3 border-b border-gray-100 items-center cursor-pointer hover:bg-gray-100"
+        class="
+          flex
+          text-sm
+          py-3
+          border-b border-gray-100
+          items-center
+          cursor-pointer
+          hover:bg-gray-100
+        "
       >
         <img
           src="https://picsum.photos/100"
@@ -67,8 +78,7 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
-<style>
-</style>
+<style></style>

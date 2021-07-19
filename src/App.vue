@@ -3,12 +3,31 @@
     <div class="flex h-screen container mx-auto">
       <!-- side section -->
       <div
-        class="w-20 lg:w-1/4 bg-white-200 lg:pl-5 flex flex-col justify-between border-r border-gray-200 px-3"
+        class="
+          w-20
+          lg:w-1/4
+          bg-white-200
+          lg:pl-5
+          flex flex-col
+          justify-between
+          border-r border-gray-200
+          px-3
+        "
       >
         <div class="flex flex-col items-center lg:items-start">
           <!-- twiiter logo -->
           <i
-            class="fab fa-twitter text-2xl text-primary my-2 lg:ml-2 hover:bg-lighter px-2 py-1 rounded-full"
+            class="
+              fab
+              fa-twitter
+              text-2xl text-primary
+              my-2
+              lg:ml-2
+              hover:bg-lighter
+              px-2
+              py-1
+              rounded-full
+            "
           ></i>
           <!-- sidememu icons -->
           <div class="flex flex-col text-lg items-start">
@@ -19,9 +38,7 @@
               <i class="fas fa-fw fa-home"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Home</span>
             </router-link>
-            <div
-              class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
-            >
+            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
               <i class="fas fa-fw fa-hashtag"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Explore</span>
             </div>
@@ -30,9 +47,7 @@
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
             >
               <i class="fas fa-fw fa-bell"></i>
-              <span class="ml-5 text-lg hidden lg:inline-block"
-                >Notifications</span
-              >
+              <span class="ml-5 text-lg hidden lg:inline-block">Notifications</span>
             </router-link>
             <router-link
               to="/messages"
@@ -41,15 +56,11 @@
               <i class="fas fa-fw fa-envelope"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Messages</span>
             </router-link>
-            <div
-              class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
-            >
+            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
               <i class="fas fa-fw fa-bookmark"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Bookmarks</span>
             </div>
-            <div
-              class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
-            >
+            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
               <i class="fas fa-fw fa-list-alt"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Lists</span>
             </div>
@@ -60,9 +71,7 @@
               <i class="fas fa-fw fa-user"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">Profile</span>
             </router-link>
-            <div
-              class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
-            >
+            <div class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer">
               <i class="fas fa-fw fa-ellipsis-h"></i>
               <span class="ml-5 text-lg hidden lg:inline-block">More</span>
             </div>
@@ -79,22 +88,13 @@
         </div>
         <!-- profile -->
         <div class="lg:pr-3 mb-3">
-          <button
-            class="hidden lg:flex w-full h-12 hover:bg-blue-50 rounded-full items-center"
-          >
-            <img
-              src="https://picsum.photos/100"
-              class="w-10 h-10 rounded-full"
-            />
+          <button class="hidden lg:flex w-full h-12 hover:bg-blue-50 rounded-full items-center">
+            <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full" />
             <div class="ml-3 hidden lg:block">
               <div class="text-sm font-bold">곽희원</div>
-              <div class="text-xs text-gray-500 text-left">
-                imleesky@naver.com
-              </div>
+              <div class="text-xs text-gray-500 text-left">imleesky@naver.com</div>
             </div>
-            <i
-              class="fas fa-fw fa-ellipsis-h pt-3 ml-3 text-xs hidden lg:block"
-            ></i>
+            <i class="fas fa-fw fa-ellipsis-h pt-3 ml-3 text-xs hidden lg:block"></i>
           </button>
           <div class="lg:hidden flex justify-center">
             <img
@@ -114,8 +114,6 @@
   </div>
 </template>
 
-<script>
-</script>
+<script></script>
 
-<style>
-</style>
+<style></style>
