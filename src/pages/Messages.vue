@@ -10,10 +10,7 @@
       <!-- Chat contents -->
       <div>
         <div v-for="m in 6" :key="m" class="flex p-3 hover:bg-gray-50 items-center">
-          <img
-            src="https://picsum.photos/100"
-            class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80"
-          />
+          <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
           <div class="ml-3">
             <div class="space-x-1">
               <span class="text-sm font-bold">imleesky</span>
@@ -29,10 +26,7 @@
     <div class="flex-1 flex flex-col w-3/5 p-2 h-screen">
       <!-- Profile -->
       <div class="flex">
-        <img
-          src="https://picsum.photos/100"
-          class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80"
-        />
+        <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
         <div class="ml-3">
           <div class="text-m font-bold">imleesky</div>
           <div class="text-xs text-gray-500">@imleesky</div>
