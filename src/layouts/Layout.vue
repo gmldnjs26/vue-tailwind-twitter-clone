@@ -15,10 +15,6 @@ export default {
   setup() {
     const route = useRoute()
     const layout = computed(() => route.meta.layout || 'AfterLogin')
-    const text = () => {
-      if ('ls' != 'asd') {
-      }
-    }
 
     return {
       layout,

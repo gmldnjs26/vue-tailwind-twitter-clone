@@ -13,9 +13,7 @@
             placeholder="What's happening"
           />
           <div class="text-right">
-            <button class="text-white bg-primary rounded-full font-bold hover:bg-dark w-20 h-10">
-              트윗
-            </button>
+            <button class="text-white bg-primary rounded-full font-bold hover:bg-dark w-20 h-10">트윗</button>
           </div>
         </div>
       </div>

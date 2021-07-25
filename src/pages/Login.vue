@@ -4,15 +4,20 @@
       <div class="flex flex-col justify-center items-center">
         <i
           class="fab fa-twitter text-3xl text-primary my-2 hover:bg-lighter px-2 py-1 rounded-full"
-          :class="loading ?? 'animate-bounce'"
+          :class="loading ? 'animate-bounce' : ''"
         ></i>
-        <h1 class="text-xl mb-2 font-bold">트위터 회원가입</h1>
+        <h1 class="text-xl mb-2 font-bold">로그인</h1>
       </div>
       <section class="flex flex-col w-full space-y-3">
         <input v-model="email" type="text" placeholder="이메일" />
         <input v-model="password" type="password" placeholder="비밀번호" />
-        <button class="w-full h-12 text-white bg-primary rounded-full hover:bg-dark" @click="onLogin">
-          <span>회원가입하기</span>
+        <button
+          class="w-full h-12 text-white bg-primary rounded-full hover:bg-dark"
+          :class="loading ? 'opacity-50' : ''"
+          :disabled="loading"
+          @click="onLogin"
+        >
+          <span>로그인하기</span>
         </button>
         <div class="w-full text-center">
           <router-link to="/register">계정이 없으신가요? 회원가입하기 </router-link>
@@ -24,14 +29,44 @@
 
 <script>
 import { ref } from 'vue'
+import { auth } from '../firebase'
+import { useRouter } from 'vue-router'
 export default {
   setup() {
     const email = ref('')
     const password = ref('')
     const loading = ref(false)
 
-    const onLogin = () => {
-      console.log('Test' + email.value)
+    const router = useRouter()
+
+    const onLogin = async () => {
+      if (!email.value || !password.value) {
+        alert('이메일, 비밀번호를 모두 입력해주세요.')
+        return
+      }
+      try {
+        loading.value = true
+        const credential = await auth.signInWithEmailAndPassword(email.value, password.value)
+        alert('Sucess login ', credential)
+        router.replace('/')
+      } catch (e) {
+        switch (e.code) {
+          case 'auth/invalid-email':
+            alert('잘못된 이메일 형식입니다.')
+            break
+          case 'auth/wrong-password':
+            alert('비밀번호가 틀립니다.')
+            break
+          case 'auth/user-not-found':
+            alert('등록되지 않은 이메일입니다.')
+            break
+          default:
+            alert(e.message)
+            break
+        }
+      } finally {
+        loading.value = false
+      }
     }
 
     return {
