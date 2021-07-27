@@ -101,4 +101,9 @@ const router = createRouter({
   routes,
 })
 
+// router.beforeEach((from, to, next) => {
+//   // not authenticated
+//   // authenticated
+// })
+
 export default router
