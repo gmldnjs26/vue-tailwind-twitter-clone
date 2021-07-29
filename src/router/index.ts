@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { store } from '../store'
 import Home from '../pages/Home.vue'
 import Notifications from '../pages/Notification.vue'
 import Messages from '../pages/Messages.vue'
@@ -101,9 +102,12 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach((from, to, next) => {
-//   // not authenticated
-//   // authenticated
-// })
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth && !store.state.user) {
+    router.push('/login')
+  } else {
+    next()
+  }
+})
 
 export default router

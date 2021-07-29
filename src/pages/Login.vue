@@ -55,7 +55,7 @@ export default {
         const credential = await auth.signInWithEmailAndPassword(email.value, password.value)
         const doc = await db.collection('users').doc(credential.user.uid).get()
         store.commit('SET_USER', doc.data())
-        alert('Sucess login ', credential)
+        alert('Success login ', credential)
         router.replace('/')
       } catch (e) {
         switch (e.code) {
