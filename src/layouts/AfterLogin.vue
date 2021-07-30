@@ -15,6 +15,7 @@
               :to="route.path"
               :key="route.name"
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
+              :class="router.currentRoute.value.name === route.name ? 'text-primary' : ''"
             >
               <div v-if="route.meta.isMenu">
                 <i :class="route.icon"></i>
@@ -33,15 +34,15 @@
         <!-- profile -->
         <div @click="showProfileDropdown = true" class="lg:pr-3 mb-3">
           <button class="hidden lg:flex w-full h-12 hover:bg-blue-50 rounded-full items-center">
-            <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full" />
+            <img :src="curUser.profile_image_url" class="w-10 h-10 rounded-full" />
             <div class="ml-3 hidden lg:block">
-              <div class="text-sm font-bold">곽희원</div>
-              <div class="text-xs text-gray-500 text-left">imleesky@naver.com</div>
+              <div class="text-sm font-bold">{{ curUser.email }}</div>
+              <div class="text-xs text-gray-500 text-left">{{ curUser.username }}</div>
             </div>
             <i class="fas fa-fw fa-ellipsis-h pt-3 ml-3 text-xs hidden lg:block"></i>
           </button>
           <div class="lg:hidden flex justify-center">
-            <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
+            <img :src="curUser.profile_image_url" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
           </div>
         </div>
       </div>
@@ -56,21 +57,23 @@
         @click="showProfileDropdown = false"
       >
         <button class="hover:bg-gray-50 border-b border-gray-100 flex p-3 w-full items-center">
-          <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full" />
+          <img :src="curUser.profile_image_url" class="w-10 h-10 rounded-full" />
           <div class="ml-2">
-            <div class="font-bold text-sm">imleesky265</div>
-            <div class="text-left text-gray-500 text-sm">@곽희원</div>
+            <div class="font-bold text-sm">{{ curUser.email }}</div>
+            <div class="text-left text-gray-500 text-sm">{{ curUser.username }}</div>
           </div>
           <i class="fas fa-check text-primary ml-auto"></i>
         </button>
-        <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">@희원 계정에서 로그아웃</button>
+        <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">
+          @{{ curUser.username }} 계정에서 로그아웃
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import { store } from '../store'
 import { auth } from '../firebase'
 import router from '../router'
@@ -78,6 +81,8 @@ export default {
   setup() {
     const routes = ref([])
     const showProfileDropdown = ref(false)
+
+    const curUser = computed(() => store.state.user)
 
     onBeforeMount(() => {
       routes.value = router.options.routes
@@ -88,7 +93,7 @@ export default {
       await router.replace('/login')
     }
 
-    return { routes, showProfileDropdown, onLogout }
+    return { routes, showProfileDropdown, onLogout, curUser, router }
   },
 }
 </script>

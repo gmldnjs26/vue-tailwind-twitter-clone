@@ -57,6 +57,7 @@ export default {
         const doc = db.collection('users').doc(credential.user.uid)
         const result = await doc.set({
           uid: credential.user.uid,
+          username: username.value,
           email: email.value,
           profile_image_url: '/profile.jpg',
           num_tweets: 0,
