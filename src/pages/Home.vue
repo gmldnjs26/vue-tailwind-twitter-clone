@@ -14,7 +14,12 @@
             placeholder="What's happening"
           />
           <div class="text-right">
-            <button @click="tweeting" class="text-white bg-primary rounded-full font-bold hover:bg-dark w-20 h-10">
+            <button
+              @click="tweeting"
+              class="text-white bg-primary rounded-full font-bold w-20 h-10"
+              :disabled="tweetContents.length === 0"
+              :class="tweetContents.length === 0 ? 'opacity-50' : 'hover:bg-dark'"
+            >
               트윗
             </button>
           </div>
