@@ -1,10 +1,10 @@
 <template>
   <div class="flex px-3 py-3">
     <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full" />
-    <div class="flex flex-col mx-2 space-y-1">
+    <div class="flex flex-col mx-2 space-y-1 w-full">
       <div class="space-x-2">
-        <span class="text-sm font-bold">조국</span>
-        <span class="text-xs font-thin">@imleesky</span>
+        <span class="text-sm font-bold">{{ tweet.username }}</span>
+        <span class="text-xs font-thin">@{{ tweet.email }}</span>
         <span class="text-xs font-thin">{{ moment(tweet.created_at).fromNow() }}</span>
       </div>
       <div>{{ tweet.tweet_contents }}</div>

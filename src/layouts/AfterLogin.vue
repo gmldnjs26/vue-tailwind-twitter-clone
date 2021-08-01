@@ -17,15 +17,16 @@
               class="hover:text-primary hover:bg-lighter px-4 py-2 rounded-full cursor-pointer"
               :class="router.currentRoute.value.name === route.name ? 'text-primary' : ''"
             >
-              <div v-if="route.meta.isMenu">
-                <i :class="route.icon"></i>
-                <span class="ml-5 text-lg hidden lg:inline-block">{{ route.title }}</span>
-              </div>
+              <i :class="route.icon"></i>
+              <span class="ml-5 text-lg hidden lg:inline-block">{{ route.title }}</span>
             </router-link>
           </div>
           <!-- twitter button -->
           <div class="w-full flex justify-center">
-            <button class="mt-7 w-12 lg:w-full h-12 text-white bg-primary rounded-full hover:bg-dark">
+            <button
+              @click="toggleTweetModal"
+              class="mt-7 w-12 lg:w-full h-12 text-white bg-primary rounded-full hover:bg-dark"
+            >
               <span class="hidden lg:block">Tweet</span>
               <i class="fa fa-plus lg:hidden"></i>
             </button>
@@ -46,7 +47,7 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 flex h-screen overflow-auto">
+      <div class="flex-1 flex h-screen">
         <!-- main contetnts -->
         <router-view />
       </div>
@@ -69,6 +70,7 @@
         </button>
       </div>
     </div>
+    <TweetModal v-if="isShowTweetModal" @toggleTweetModal="toggleTweetModal" />
   </div>
 </template>
 
@@ -77,23 +79,29 @@ import { ref, onBeforeMount, computed } from 'vue'
 import { store } from '../store'
 import { auth } from '../firebase'
 import router from '../router'
+import TweetModal from '../components/TweetModal.vue'
 export default {
+  components: { TweetModal },
   setup() {
     const routes = ref([])
     const showProfileDropdown = ref(false)
+    const isShowTweetModal = ref(false)
 
     const curUser = computed(() => store.state.user)
 
     onBeforeMount(() => {
-      routes.value = router.options.routes
+      routes.value = router.options.routes.filter((route) => route.meta.isMenu)
     })
     const onLogout = async () => {
       await auth.signOut()
       store.commit('SET_USER', null)
       await router.replace('/login')
     }
+    const toggleTweetModal = () => {
+      isShowTweetModal.value = !isShowTweetModal.value
+    }
 
-    return { routes, showProfileDropdown, onLogout, curUser, router }
+    return { routes, showProfileDropdown, onLogout, curUser, router, isShowTweetModal, toggleTweetModal }
   },
 }
 </script>

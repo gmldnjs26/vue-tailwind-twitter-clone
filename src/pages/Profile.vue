@@ -15,39 +15,13 @@
       <!-- background image -->
       <div class="bg-gray-300 h-40 relative flex-none">
         <!-- profile image -->
-        <div
-          class="
-            border-4 border-white
-            bg-gray-100
-            w-28
-            h-28
-            rounded-full
-            absolute
-            -bottom-14
-            left-2
-          "
-        >
-          <img
-            src="http://picsum.photos/200"
-            class="rounded-full opacity-90 hover:opacity-100 cursor-pointer"
-          />
+        <div class="border-4 border-white bg-gray-100 w-28 h-28 rounded-full absolute -bottom-14 left-2">
+          <img src="http://picsum.photos/200" class="rounded-full opacity-90 hover:opacity-100 cursor-pointer" />
         </div>
       </div>
       <!-- profile edit button -->
       <div class="text-right mt-2 mr-2">
-        <button
-          class="
-            border
-            text-sm
-            border-primary
-            text-primary
-            px-3
-            py-2
-            hover:bg-blue-50
-            font-bold
-            rounded-full
-          "
-        >
+        <button class="border text-sm border-primary text-primary px-3 py-2 hover:bg-blue-50 font-bold rounded-full">
           프로필 수정
         </button>
       </div>
@@ -83,46 +57,13 @@
         >
           트윗
         </div>
-        <div
-          class="
-            py-3
-            text-gray
-            font-bold
-            text-center
-            w-1/4
-            hover:bg-blue-50
-            cursor-pointer
-            hover:text-primary
-          "
-        >
+        <div class="py-3 text-gray font-bold text-center w-1/4 hover:bg-blue-50 cursor-pointer hover:text-primary">
           트윗
         </div>
-        <div
-          class="
-            py-3
-            text-gray
-            font-bold
-            text-center
-            w-1/4
-            hover:bg-blue-50
-            cursor-pointer
-            hover:text-primary
-          "
-        >
+        <div class="py-3 text-gray font-bold text-center w-1/4 hover:bg-blue-50 cursor-pointer hover:text-primary">
           트윗
         </div>
-        <div
-          class="
-            py-3
-            text-gray
-            font-bold
-            text-center
-            w-1/4
-            hover:bg-blue-50
-            cursor-pointer
-            hover:text-primary
-          "
-        >
+        <div class="py-3 text-gray font-bold text-center w-1/4 hover:bg-blue-50 cursor-pointer hover:text-primary">
           트윗
         </div>
       </div>
