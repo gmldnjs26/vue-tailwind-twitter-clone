@@ -26,13 +26,18 @@
         </div>
       </div>
     </div>
+    <CommentModal v-show="isShowCommentModal" />
   </div>
 </template>
 
 <script>
 import moment from 'moment'
+import { ref } from 'vue'
 
 export default {
+  components: {
+    CommentModal: () => import('../components/CommentModal.vue'),
+  },
   props: {
     tweet: {
       type: Object,
@@ -40,7 +45,14 @@ export default {
     },
   },
   setup() {
+    const isShowCommentModal = ref(false)
+
+    const toggleCommentModal = () => {
+      isShowCommentModal.value = !isShowCommentModal.value
+    }
     return {
+      toggleCommentModal,
+      isShowCommentModal,
       moment,
     }
   },

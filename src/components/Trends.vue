@@ -46,31 +46,14 @@
     <!-- Follow Recomanded -->
     <div class="py-2">
       <div class="font-bold text-lg">팔로우 추천</div>
-      <div
-        class="
-          flex
-          text-sm
-          py-3
-          border-b border-gray-100
-          items-center
-          cursor-pointer
-          hover:bg-gray-100
-        "
-      >
-        <img
-          src="https://picsum.photos/100"
-          class="w-10 h-10 mr-3 rounded-full cursor-pointer hover:opacity-80"
-        />
+      <div class="flex text-sm py-3 border-b border-gray-100 items-center cursor-pointer hover:bg-gray-100">
+        <img src="https://picsum.photos/100" class="w-10 h-10 mr-3 rounded-full cursor-pointer hover:opacity-80" />
         <div>
           <div class="font-bold text-sm">러블리즈</div>
           <div class="text-gray-400">3,441 트윗</div>
         </div>
         <div class="ml-20">
-          <button
-            class="text-primary border-2 border-primary rounded-full hover:bg-blue-100 py-1 px-3"
-          >
-            팔로우
-          </button>
+          <button class="text-primary border-2 border-primary rounded-full hover:bg-blue-100 py-1 px-3">팔로우</button>
         </div>
       </div>
     </div>
