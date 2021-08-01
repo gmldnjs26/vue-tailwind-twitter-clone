@@ -27,7 +27,7 @@
       </div>
       <!-- tweets section -->
       <div class="mt-3 border-b border-gray-100">
-        <Tweet v-for="t in 7" :key="t" />
+        <Tweet :tweet="tweet" v-for="tweet in tweets" :key="tweet.id" />
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
 <script>
 import Trends from '../components/Trends.vue'
 import Tweet from '../components/Tweet.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeMount } from 'vue'
 import { store } from '../store'
 import { TWEET_COLLECTION } from '../firebase'
 
@@ -50,6 +50,22 @@ export default {
   setup() {
     const tweetContents = ref('')
     const curUser = computed(() => store.state.user)
+    const tweets = ref([])
+
+    onBeforeMount(() => {
+      console.log('onBeforeMount')
+      TWEET_COLLECTION.onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === 'added') {
+            tweets.value.splice(change.newIndex, 0, change.doc.data())
+          } else if (change.type === 'modified') {
+            tweets.value.splice(change.oldIndex, 1, change.doc.data())
+          } else if (change.type === 'removed') {
+            tweets.value.splice(change.oldIndex, 1)
+          }
+        })
+      })
+    })
 
     const tweeting = async () => {
       try {
@@ -73,6 +89,7 @@ export default {
       tweetContents,
       tweeting,
       curUser,
+      tweets,
     }
   },
 }
