@@ -27,7 +27,7 @@
       </div>
     </div>
   </div>
-  <CommentModal v-if="isShowCommentModal" @toggleCommentModal="toggleCommentModal" />
+  <CommentModal :tweet="tweet" v-if="isShowCommentModal" @toggleCommentModal="toggleCommentModal" />
 </template>
 
 <script>
