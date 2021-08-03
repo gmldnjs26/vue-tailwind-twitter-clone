@@ -9,7 +9,7 @@
       </div>
       <div>{{ tweet.tweet_contents }}</div>
       <div class="flex justify-between text-gray-500">
-        <div class="hover:bg-blue-50 hover:text-primary rounded-full p-2">
+        <div @click="isShowCommentModal = true" class="hover:bg-blue-50 hover:text-primary rounded-full p-2">
           <i class="far fa-comment"></i>
           <span class="ml-1 text-sm">{{ tweet.num_comments }}</span>
         </div>
@@ -26,17 +26,18 @@
         </div>
       </div>
     </div>
-    <CommentModal v-show="isShowCommentModal" />
   </div>
+  <CommentModal v-if="isShowCommentModal" @toggleCommentModal="toggleCommentModal" />
 </template>
 
 <script>
 import moment from 'moment'
 import { ref } from 'vue'
+import CommentModal from '../components/CommentModal.vue'
 
 export default {
   components: {
-    CommentModal: () => import('../components/CommentModal.vue'),
+    CommentModal,
   },
   props: {
     tweet: {
