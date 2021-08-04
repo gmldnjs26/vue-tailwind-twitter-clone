@@ -57,7 +57,8 @@
 import { store } from '../store'
 import { ref, computed } from 'vue'
 import moment from 'moment'
-// import apiTweet from '../api/commenting'
+import { COMMENT_COLLECTION, TWEET_COLLECTION } from '../firebase'
+import firebase from 'firebase'
 
 export default {
   props: {
@@ -67,15 +68,27 @@ export default {
     },
   },
   emits: ['toggleCommentModal'],
-  setup() {
+  setup(props, context) {
     const commentContents = ref('')
 
     const curUser = computed(() => store.state.user)
 
     const commenting = async () => {
       try {
-        // await apiTweet(commentContents.value, curUser.value)
+        const doc = COMMENT_COLLECTION.doc()
+        await doc.set({
+          id: doc.id,
+          from_tweet_id: props.tweet.id,
+          comment_content: commentContents.value,
+          uid: curUser.value.uid,
+          created_at: Date.now(),
+        })
+
+        await TWEET_COLLECTION.doc(props.tweet.id).update({
+          num_comments: firebase.firestore.FieldValue.increment(1),
+        })
         commentContents.value = ''
+        context.emit('toggleCommentModal')
       } catch (e) {
         console.log('commenting error', e)
       }
