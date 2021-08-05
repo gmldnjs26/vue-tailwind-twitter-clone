@@ -63,26 +63,26 @@ export default {
             tweets.value.splice(change.oldIndex, 1)
           }
         })
-        await getTweetInfo()
+        tweets.value = await getTweetInfo()
         console.log(tweets.value)
       })
     })
 
     const getTweetInfo = async () => {
-      await tweets.value.map(async (tweet) => {
-        const doc = await USER_COLLECTION.doc(tweet.uid).get()
-        const snapshot = await RETWEET_COLLECTION.where('from_tweet_id', '==', tweet.id)
-          .where('uid', '==', curUser.value.uid)
-          .get()
-        const userInfo = {
-          profile_image_url: doc.data().profile_image_url,
-          email: doc.data().email,
-          username: doc.data().username,
-        }
-        console.log({ ...tweet, ...userInfo })
-
-        return { ...tweet, ...userInfo }
-      })
+      return await Promise.all(
+        tweets.value.map(async (tweet) => {
+          const doc = await USER_COLLECTION.doc(tweet.uid).get()
+          const snapshot = await RETWEET_COLLECTION.where('from_tweet_id', '==', tweet.id)
+            .where('uid', '==', curUser.value.uid)
+            .get()
+          const userInfo = {
+            profile_image_url: doc.data().profile_image_url,
+            email: doc.data().email,
+            username: doc.data().username,
+          }
+          return { ...tweet, ...userInfo, isRetweeted: snapshot.empty ? false : true }
+        })
+      )
     }
 
     const tweeting = async () => {
