@@ -38,7 +38,7 @@ import Trends from '../components/Trends.vue'
 import Tweet from '../components/Tweet.vue'
 import { computed, ref, onBeforeMount } from 'vue'
 import { store } from '../store'
-import { TWEET_COLLECTION, USER_COLLECTION } from '../firebase'
+import { TWEET_COLLECTION, USER_COLLECTION, RETWEET_COLLECTION } from '../firebase'
 import apiTweet from '../api/tweeting'
 
 export default {
@@ -63,19 +63,25 @@ export default {
             tweets.value.splice(change.oldIndex, 1)
           }
         })
-        await getUserInfo()
+        await getTweetInfo()
+        console.log(tweets.value)
       })
     })
 
-    const getUserInfo = async () => {
+    const getTweetInfo = async () => {
       await tweets.value.map(async (tweet) => {
         const doc = await USER_COLLECTION.doc(tweet.uid).get()
+        const snapshot = await RETWEET_COLLECTION.where('from_tweet_id', '==', tweet.id)
+          .where('uid', '==', curUser.value.uid)
+          .get()
         const userInfo = {
           profile_image_url: doc.data().profile_image_url,
           email: doc.data().email,
           username: doc.data().username,
         }
-        return Object.assign(tweet, userInfo)
+        console.log({ ...tweet, ...userInfo })
+
+        return { ...tweet, ...userInfo }
       })
     }
 
