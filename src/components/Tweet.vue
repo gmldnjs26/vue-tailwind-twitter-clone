@@ -20,7 +20,10 @@
           <i class="far fa-retweet"></i>
           <span class="ml-1 text-sm">{{ tweet.num_retweets }}</span>
         </div>
-        <div class="hover:bg-blue-50 hover:text-red-500 rounded-full p-2">
+        <div
+          :class="`${tweet.isLiked ? 'text-red-500' : ''} hover:bg-blue-50 hover:text-red-500 rounded-full p-2`"
+          @click="liking(tweet)"
+        >
           <i class="far fa-heart"></i>
           <span class="ml-1 text-sm">{{ tweet.num_likes }}</span>
         </div>
@@ -38,6 +41,7 @@ import moment from 'moment'
 import { ref } from 'vue'
 import CommentModal from '../components/CommentModal.vue'
 import retweeting from '../api/retweeting'
+import liking from '../api/liking'
 
 export default {
   components: {
@@ -60,6 +64,7 @@ export default {
       isShowCommentModal,
       moment,
       retweeting,
+      liking,
     }
   },
 }

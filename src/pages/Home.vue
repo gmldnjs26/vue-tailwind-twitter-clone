@@ -38,7 +38,7 @@ import Trends from '../components/Trends.vue'
 import Tweet from '../components/Tweet.vue'
 import { computed, ref, onBeforeMount } from 'vue'
 import { store } from '../store'
-import { TWEET_COLLECTION, USER_COLLECTION, RETWEET_COLLECTION } from '../firebase'
+import { TWEET_COLLECTION, USER_COLLECTION, RETWEET_COLLECTION, LIKE_COLLECTION } from '../firebase'
 import apiTweet from '../api/tweeting'
 
 export default {
@@ -72,7 +72,10 @@ export default {
       return await Promise.all(
         tweets.value.map(async (tweet) => {
           const doc = await USER_COLLECTION.doc(tweet.uid).get()
-          const snapshot = await RETWEET_COLLECTION.where('from_tweet_id', '==', tweet.id)
+          const retweetInfo = await RETWEET_COLLECTION.where('from_tweet_id', '==', tweet.id)
+            .where('uid', '==', curUser.value.uid)
+            .get()
+          const likeInfo = await LIKE_COLLECTION.where('from_tweet_id', '==', tweet.id)
             .where('uid', '==', curUser.value.uid)
             .get()
           const userInfo = {
@@ -80,7 +83,12 @@ export default {
             email: doc.data().email,
             username: doc.data().username,
           }
-          return { ...tweet, ...userInfo, isRetweeted: snapshot.empty ? false : true }
+          return {
+            ...tweet,
+            ...userInfo,
+            isRetweeted: retweetInfo.empty ? false : true,
+            isLiked: likeInfo.empty ? false : true,
+          }
         })
       )
     }
