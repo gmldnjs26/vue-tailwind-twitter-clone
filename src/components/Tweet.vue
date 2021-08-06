@@ -13,7 +13,10 @@
           <i class="far fa-comment"></i>
           <span class="ml-1 text-sm">{{ tweet.num_comments }}</span>
         </div>
-        <div class="hover:bg-blue-50 hover:text-green-500 rounded-full p-2" @click="retweeting(tweet)">
+        <div
+          :class="`${tweet.isRetweeted ? 'text-green-500' : ''} hover:bg-blue-50 hover:text-green-500 rounded-full p-2`"
+          @click="retweeting(tweet)"
+        >
           <i class="far fa-retweet"></i>
           <span class="ml-1 text-sm">{{ tweet.num_retweets }}</span>
         </div>
