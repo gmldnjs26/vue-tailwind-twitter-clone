@@ -7,7 +7,7 @@
         <span class="text-xs font-thin">@{{ tweet.email }}</span>
         <span class="text-xs font-thin">{{ moment(tweet.created_at).fromNow() }}</span>
       </div>
-      <div>{{ tweet.tweet_contents }}</div>
+      <router-link :to="`/tweet/${tweet.id}`">{{ tweet.tweet_contents }}</router-link>
       <div class="flex justify-between text-gray-500">
         <div @click="isShowCommentModal = true" class="hover:bg-blue-50 hover:text-primary rounded-full p-2">
           <i class="far fa-comment"></i>

@@ -6,6 +6,7 @@ import Messages from '../pages/Messages.vue'
 import Profile from '../pages/Profile.vue'
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
+import Tweet from '../pages/Tweet.vue'
 
 const routes = [
   {
@@ -77,12 +78,12 @@ const routes = [
     icon: 'fas fa-ellipsis-h fa-fw text-2xl',
     meta: { isMenu: true, layout: 'AfterLogin', requireAuth: true },
   },
-  // {
-  //   path: '/tweet/:id',
-  //   name: 'tweet',
-  //   component: Tweet,
-  //   meta: { isMenu: false, layout: 'AfterLogin', requireAuth: true },
-  // },
+  {
+    path: '/tweet/:id',
+    name: 'tweet',
+    component: Tweet,
+    meta: { isMenu: false, layout: 'AfterLogin', requireAuth: true },
+  },
   {
     path: '/register',
     name: 'register',
