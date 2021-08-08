@@ -64,7 +64,6 @@ export default {
           }
         })
         tweets.value = await getTweetInfo()
-        console.log(tweets.value)
       })
     })
 

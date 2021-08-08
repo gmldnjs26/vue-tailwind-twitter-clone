@@ -36,34 +36,45 @@
         </div>
       </div>
       <div class="flex justify-around">
-        <button class="flex items-center">
+        <button @click="toggleCommentModal" class="flex items-center">
           <i class="far fa-comment text-gray-400 text-xl hover:bg-blue-50 hover:text-primary px-1 rounded-full"></i>
         </button>
-        <button class="flex items-center">
-          <i class="far fa-retweet text-gray-400 text-xl hover:bg-green-50 hover:text-green-400 px-1 rounded-full"></i>
+        <button @click="retweeting(tweet)" class="flex items-center">
+          <i
+            :class="tweet.isRetweeted ? 'text-green-400' : ''"
+            class="far fa-retweet text-gray-400 text-xl hover:bg-green-50 hover:text-green-400 px-1 rounded-full"
+          ></i>
         </button>
-        <button>
-          <i class="far fa-heart text-gray-400 text-xl hover:bg-red-50 hover:text-red-400 px-1 rounded-full"></i>
+        <button @click="liking(tweet)">
+          <i
+            :class="tweet.isLiked ? 'text-red-400' : ''"
+            class="far fa-heart text-gray-400 text-xl hover:bg-red-50 hover:text-red-400 px-1 rounded-full"
+          ></i>
         </button>
       </div>
-      <!-- comments retweet like etc.. -->
-      <div class="flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer">
+      <!-- comments -->
+      <div
+        class="flex items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
+        v-for="comment in comments"
+        :key="comment.id"
+      >
         <img src="http://picsum.photos/100" class="w-10 h-10 rounded-full" />
         <div class="flex-1 flex flex-col text-xs">
           <div class="flex space-x-1">
-            <span class="font-bold">imleesky@naver.com</span>
-            <span class="font-bold">@gmldnjs26</span>
-            <span class="text-gray-400">19 days ago</span>
+            <span class="font-bold">{{ comment.email }}</span>
+            <span class="font-bold">@{{ comment.username }}</span>
+            <span class="text-gray-400">{{ moment(comment.created_at).fromNow() }}</span>
           </div>
-          <div class="text-sm">comment</div>
+          <div class="text-sm">{{ comment.comment_content }}</div>
         </div>
-        <button>
+        <button @click="deleteComment(comment)" v-if="comment.uid === curUser.uid">
           <i class="fas fa-trash text-red-400 hover:bg-red-50 w-10 h-10 rounded-full p-3"></i>
         </button>
       </div>
     </div>
   </div>
   <Trends />
+  <CommentModal v-if="isShowCommentModal" :tweet="tweet" @toggleCommentModal="toggleCommentModal" />
 </template>
 
 <script>
@@ -73,11 +84,15 @@ import router from '../router'
 import { onBeforeMount, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { store } from '../store'
-import { TWEET_COLLECTION } from '../firebase'
+import { TWEET_COLLECTION, COMMENT_COLLECTION } from '../firebase'
 import getTweetInfo from '../api/getTweetInfo'
+import retweeting from '../api/retweeting'
+import liking from '../api/liking'
+import CommentModal from '../components/CommentModal.vue'
+import firebase from 'firebase'
 
 export default {
-  components: { Trends },
+  components: { Trends, CommentModal },
   setup() {
     const tweet = ref(null)
     const comments = ref([])
@@ -86,12 +101,40 @@ export default {
     })
     const route = useRoute()
 
+    const isShowCommentModal = ref(false)
+
+    const deleteComment = async (comment) => {
+      if (confirm('Do you want delete comment?')) {
+        await COMMENT_COLLECTION.doc(comment.id).delete()
+
+        await TWEET_COLLECTION.doc(comment.from_tweet_id).update({
+          num_comments: firebase.firestore.FieldValue.increment(-1),
+        })
+      }
+    }
+
     onBeforeMount(async () => {
       await TWEET_COLLECTION.doc(route.params.id).onSnapshot(async (doc) => {
         const t = await getTweetInfo(doc.data(), curUser.value)
         tweet.value = t
       })
+      await COMMENT_COLLECTION.orderBy('created_at', 'desc').onSnapshot(async (snapshot) => {
+        await snapshot.docChanges().forEach(async (change) => {
+          let comment = await getTweetInfo(change.doc.data(), curUser.value)
+          if (change.type === 'added') {
+            comments.value.splice(change.newIndex, 0, comment)
+          } else if (change.type === 'modified') {
+            comments.value.splice(change.oldIndex, 1, comment)
+          } else if (change.type === 'removed') {
+            comments.value.splice(change.oldIndex, 1)
+          }
+        })
+      })
     })
+
+    const toggleCommentModal = () => {
+      isShowCommentModal.value = !isShowCommentModal.value
+    }
 
     return {
       router,
@@ -99,6 +142,11 @@ export default {
       comments,
       curUser,
       moment,
+      isShowCommentModal,
+      toggleCommentModal,
+      retweeting,
+      liking,
+      deleteComment,
     }
   },
 }
