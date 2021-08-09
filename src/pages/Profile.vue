@@ -1,15 +1,15 @@
 <template>
   <div class="flex-1 flex">
     <!-- profile section -->
-    <div class="flex-1 flex flex-col border-r border-gray-100">
+    <div class="flex-1 flex flex-col border-r border-gray-100" v-if="profileUser">
       <!-- title -->
       <div class="px-3 py-1 flex border-b border-gray-100">
-        <button class="mr-4">
+        <button class="mr-4" @click="router.go(-1)">
           <i class="fas fa-arrow-left text-primary p-3 rounded-full hover:bg-blue-50"></i>
         </button>
         <div>
-          <div class="font-extrabold text-lg">{{ curUser.username }}</div>
-          <div class="text-xs text-gray">{{ curUser.num_tweets }} 트윗</div>
+          <div class="font-extrabold text-lg">{{ profileUser.username }}</div>
+          <div class="text-xs text-gray">{{ profileUser.num_tweets }} 트윗</div>
         </div>
       </div>
       <!-- background image -->
@@ -21,21 +21,24 @@
       </div>
       <!-- profile edit button -->
       <div class="text-right mt-2 mr-2">
-        <button class="border text-sm border-primary text-primary px-3 py-2 hover:bg-blue-50 font-bold rounded-full">
+        <button
+          @click="toggleProfileEditModal"
+          class="border text-sm border-primary text-primary px-3 py-2 hover:bg-blue-50 font-bold rounded-full"
+        >
           프로필 수정
         </button>
       </div>
       <!-- user info -->
       <div class="mx-3 mt-2">
-        <div class="font-extrabold text-lg">{{ curUser.email }}</div>
-        <div class="text-gray">@{{ curUser.username }}</div>
+        <div class="font-extrabold text-lg">{{ profileUser.email }}</div>
+        <div class="text-gray">@{{ profileUser.username }}</div>
         <div>
-          <span class="text-gray">{{ moment(curUser.created_at).format('YYYY년 MM월') }}</span>
+          <span class="text-gray">{{ moment(profileUser.created_at).format('YYYY년 MM월') }}</span>
         </div>
         <div>
-          <span class="font-bold mr-1">{{ curUser.followings.length }}</span>
+          <span class="font-bold mr-1">{{ profileUser.followings.length }}</span>
           <span class="text-gray mr-3">팔로우 중</span>
-          <span class="font-bold mr-1">{{ curUser.followers.length }}</span>
+          <span class="font-bold mr-1">{{ profileUser.followers.length }}</span>
           <span class="text-gray">팔로워</span>
         </div>
       </div>
@@ -70,38 +73,52 @@
       />
     </div>
     <!-- trend section -->
-    <Trends />
   </div>
+  <Trends />
+  <ProfileEditModal v-if="isShowProfileEditModal" @toggleProfileEditModal="toggleProfileEditModal" />
 </template>
 
 <script>
 import Trends from '../components/Trends.vue'
 import Tweet from '../components/Tweet.vue'
+import ProfileEditModal from '../components/ProfileEditModal.vue'
 import { store } from '../store'
 import { computed, ref, onBeforeMount } from 'vue'
 import { TWEET_COLLECTION, USER_COLLECTION, RETWEET_COLLECTION, LIKE_COLLECTION } from '../firebase'
 import moment from 'moment'
 import getTweetInfo from '../api/getTweetInfo'
+import { useRoute } from 'vue-router'
+import router from '../router'
 
 export default {
   components: {
     Trends,
     Tweet,
+    ProfileEditModal,
   },
   setup() {
     const curUser = computed(() => store.state.user)
+    const profileUser = ref(null)
     const tweets = ref([])
     const reTweets = ref([])
     const likeTweets = ref([])
+    const route = useRoute()
 
     const currentTap = ref('tweet')
+    const isShowProfileEditModal = ref(false)
+
+    const toggleProfileEditModal = () => {
+      isShowProfileEditModal.value = !isShowProfileEditModal.value
+    }
 
     onBeforeMount(() => {
-      USER_COLLECTION.doc(curUser.value.uid).onSnapshot((doc) => {
-        store.commit('SET_USER', doc.data())
+      const profileUID = route.params.uid ?? curUser.value.uid
+
+      USER_COLLECTION.doc(profileUID).onSnapshot((doc) => {
+        profileUser.value = doc.data()
       })
 
-      TWEET_COLLECTION.where('uid', '==', curUser.value.uid)
+      TWEET_COLLECTION.where('uid', '==', profileUID)
         .orderBy('created_at', 'desc')
         .onSnapshot(async (snapshot) => {
           await snapshot.docChanges().forEach(async (change) => {
@@ -115,7 +132,7 @@ export default {
             }
           })
         })
-      RETWEET_COLLECTION.where('uid', '==', curUser.value.uid)
+      RETWEET_COLLECTION.where('uid', '==', profileUID)
         .orderBy('created_at', 'desc')
         .onSnapshot(async (snapshot) => {
           await snapshot.docChanges().forEach(async (change) => {
@@ -131,7 +148,7 @@ export default {
           })
         })
 
-      LIKE_COLLECTION.where('uid', '==', curUser.value.uid)
+      LIKE_COLLECTION.where('uid', '==', profileUID)
         .orderBy('created_at', 'desc')
         .onSnapshot(async (snapshot) => {
           await snapshot.docChanges().forEach(async (change) => {
@@ -154,6 +171,10 @@ export default {
       reTweets,
       likeTweets,
       currentTap,
+      profileUser,
+      router,
+      toggleProfileEditModal,
+      isShowProfileEditModal,
     }
   },
 }
