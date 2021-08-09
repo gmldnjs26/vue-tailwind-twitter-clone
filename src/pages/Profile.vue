@@ -14,14 +14,19 @@
       </div>
       <!-- background image -->
       <div class="bg-gray-300 h-40 relative flex-none">
+        <img ref="backgroundImage" :src="curUser.background_image_url" class="object-cover absolute w-full h-full" />
         <!-- profile image -->
         <div class="border-4 border-white bg-gray-100 w-28 h-28 rounded-full absolute -bottom-14 left-2">
-          <img src="http://picsum.photos/200" class="rounded-full opacity-90 hover:opacity-100 cursor-pointer" />
+          <img
+            :src="profileUser.profile_image_url"
+            class="rounded-full object-cover w-full h-full opacity-90 hover:opacity-100 cursor-pointer"
+          />
         </div>
       </div>
       <!-- profile edit button -->
       <div class="text-right mt-2 mr-2">
         <button
+          v-if="profileUser.uid === curUser.uid"
           @click="toggleProfileEditModal"
           class="border text-sm border-primary text-primary px-3 py-2 hover:bg-blue-50 font-bold rounded-full"
         >

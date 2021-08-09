@@ -1,7 +1,7 @@
 <template>
   <div class="flex px-3 py-3">
     <router-link :to="`/profile/${tweet.uid}`">
-      <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full" />
+      <img :src="tweet.profile_image_url" class="w-10 h-10 rounded-full" />
     </router-link>
     <div class="flex flex-col mx-2 space-y-1 w-full">
       <div class="space-x-2">
