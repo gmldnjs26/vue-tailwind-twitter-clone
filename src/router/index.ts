@@ -65,11 +65,11 @@ const routes = [
     icon: 'far fa-user fa-fw text-2xl',
     meta: { isMenu: true, layout: 'AfterLogin', requireAuth: true },
   },
-  // {
-  //   path: '/profile/:uid',
-  //   component: Profile,
-  //   meta: { isMenu: false, layout: 'AfterLogin', requireAuth: true },
-  // },
+  {
+    path: '/profile/:uid',
+    component: Profile,
+    meta: { isMenu: false, layout: 'AfterLogin', requireAuth: true },
+  },
   {
     path: '/',
     name: 'more',
