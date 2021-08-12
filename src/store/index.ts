@@ -32,5 +32,11 @@ export const store = createStore<State>({
     SET_PROFILE_IMAGER: (state, url) => {
       state.user.profile_image_url = url
     },
+    SET_FOLLOW: (state, uid) => {
+      state.user.followings.push(uid)
+    },
+    SET_UN_FOLLOW: (state, uid) => {
+      state.user.followings = state.user.followings.filter((item) => item !== uid)
+    },
   },
 })
