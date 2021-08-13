@@ -71,6 +71,7 @@ import { store } from '../store'
 import { storage, USER_COLLECTION } from '../firebase'
 
 export default {
+  emits: ['toggleProfileEditModal'],
   setup(_props, context) {
     const backgroundImage = ref(null)
     const profileImage = ref(null)

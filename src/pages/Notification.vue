@@ -4,7 +4,7 @@
     <div class="text-lg font-bold py-3">알림</div>
     <div v-for="n in notifications" :key="n.id" class="space-y-2 border-b border-gray-100 py-2">
       <div class="flex justify-between items-center flex-none">
-        <router-link :to="`/profile/${notifications.uid}`">
+        <router-link :to="`/profile/${n.uid}`">
           <img :src="n.profile_image_url" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
         </router-link>
         <i
@@ -26,7 +26,7 @@
         <span>님의 촤근 트윗</span>
       </div>
       <router-link :to="`/tweet/${n.id}`" class="text-sm text-gray-500">
-        {{ n.tweet_body }}
+        {{ n.tweet_contents }}
       </router-link>
     </div>
   </div>
@@ -62,6 +62,7 @@ export default {
           notifications.value.push(tweet)
         })
       })
+      console.log(notifications.value)
     })
 
     return {
