@@ -16,7 +16,7 @@
       <div class="bg-gray-300 h-40 relative flex-none">
         <img ref="backgroundImage" :src="curUser.background_image_url" class="object-cover absolute w-full h-full" />
         <!-- profile image -->
-        <div class="border-4 border-white bg-gray-100 w-28 h-28 rounded-full absolute -bottom-14 left-2">
+        <div class="border-1 border-gray-200 bg-gray-100 w-28 h-28 rounded-full absolute -bottom-14 left-2">
           <img
             :src="profileUser.profile_image_url"
             class="rounded-full object-cover w-full h-full opacity-90 hover:opacity-100 cursor-pointer"
