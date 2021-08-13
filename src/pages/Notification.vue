@@ -2,9 +2,11 @@
   <div class="flex-1 flex flex-col px-2 overflow-y-auto">
     <!-- Title -->
     <div class="text-lg font-bold py-3">알림</div>
-    <div v-for="n in 8" :key="n" class="space-y-2 border-b border-gray-100 py-2">
+    <div v-for="n in notifications" :key="n.id" class="space-y-2 border-b border-gray-100 py-2">
       <div class="flex justify-between items-center flex-none">
-        <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
+        <router-link :to="`/profile/${notifications.uid}`">
+          <img :src="n.profile_image_url" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
+        </router-link>
         <i
           class="
             fas
@@ -20,14 +22,12 @@
         ></i>
       </div>
       <div class="text-sm">
-        <span class="font-bold">전용우</span>
+        <span class="font-bold">{{ n.username }}</span>
         <span>님의 촤근 트윗</span>
       </div>
-      <div class="text-sm text-gray-500">
-        통양에는 1932년에 건설된 동양 최초의 '해저터널'이 있습니다 문화재 명칭은 동영해저ㅓㄹ이지만 원이름은 태합굴이
-        었습니다. 태합굴이라는 이름이 붙으너것은 터널공사가 시작되기 훨씬전인 1925년의 일입니다. 태합은 토요토미
-        히데요시를 말합니다.
-      </div>
+      <router-link :to="`/tweet/${n.id}`" class="text-sm text-gray-500">
+        {{ n.tweet_body }}
+      </router-link>
     </div>
   </div>
   <!-- trend section -->
@@ -36,10 +36,38 @@
 
 <script>
 import Trends from '../components/Trends.vue'
+import { ref, onBeforeMount, computed } from 'vue'
+import { TWEET_COLLECTION } from '../firebase'
+import { store } from '../store'
+import getTweetInfo from '../api/getTweetInfo'
 
 export default {
   components: {
     Trends,
+  },
+  setup() {
+    const notifications = ref([])
+    const curUser = computed(() => store.state.user)
+
+    onBeforeMount(() => {
+      curUser.value.followings.forEach(async (following) => {
+        const dateFrom = Date.now() - 60 * 60 * 24 * 7 * 1000 // before 7 days
+
+        const snapshot = await TWEET_COLLECTION.where('created_at', '>', dateFrom)
+          .where('uid', '==', following)
+          .orderBy('created_at', 'desc')
+          .get()
+        snapshot.docs.forEach(async (doc) => {
+          let tweet = await getTweetInfo(doc.data(), curUser.value)
+          notifications.value.push(tweet)
+        })
+      })
+    })
+
+    return {
+      notifications,
+      curUser,
+    }
   },
 }
 </script>
