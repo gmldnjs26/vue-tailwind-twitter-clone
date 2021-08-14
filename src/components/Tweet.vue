@@ -4,10 +4,15 @@
       <img :src="tweet.profile_image_url" class="w-10 h-10 rounded-full" />
     </router-link>
     <div class="flex flex-col mx-2 space-y-1 w-full">
-      <div class="space-x-2">
-        <span class="text-sm font-bold">{{ tweet.username }}</span>
-        <span class="text-xs font-thin">@{{ tweet.email }}</span>
-        <span class="text-xs font-thin">{{ moment(tweet.created_at).fromNow() }}</span>
+      <div class="flex justify-between items-center">
+        <div class="space-x-2">
+          <span class="text-sm font-bold">{{ tweet.username }}</span>
+          <span class="text-xs font-thin">@{{ tweet.email }}</span>
+          <span class="text-xs font-thin">{{ moment(tweet.created_at).fromNow() }}</span>
+        </div>
+        <button v-if="curUser.uid === tweet.uid" @click="onDeleteTweet">
+          <i class="fas fa-trash text-red-400 p-2 rounded-full hover:bg-red-50"></i>
+        </button>
       </div>
       <router-link :to="`/tweet/${tweet.id}`">{{ tweet.tweet_contents }}</router-link>
       <div class="flex justify-between text-gray-500">
@@ -40,10 +45,13 @@
 
 <script>
 import moment from 'moment'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import CommentModal from '../components/CommentModal.vue'
 import retweeting from '../api/retweeting'
 import liking from '../api/liking'
+import { store } from '../store'
+import { COMMENT_COLLECTION, LIKE_COLLECTION, RETWEET_COLLECTION, TWEET_COLLECTION, USER_COLLECTION } from '../firebase'
+import firebase from 'firebase'
 
 export default {
   components: {
@@ -55,18 +63,45 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const isShowCommentModal = ref(false)
 
     const toggleCommentModal = () => {
       isShowCommentModal.value = !isShowCommentModal.value
     }
+
+    const onDeleteTweet = async () => {
+      if (confirm('정말로 트윗을 삭제하시겠습니까?')) {
+        // delete tweet
+        await TWEET_COLLECTION.doc(props.tweet.id).delete()
+        // delete comments
+        const commentSnapshot = await COMMENT_COLLECTION.where('from_tweet_id', '==', props.tweet.id).get()
+        commentSnapshot.docs.forEach(async (doc) => await doc.ref.delete())
+
+        // delete likes
+        const likeSnapshot = await LIKE_COLLECTION.where('from_tweet_id', '==', props.tweet.id).get()
+        likeSnapshot.docs.forEach(async (doc) => await doc.ref.delete())
+
+        // delete retweets
+        const retweetSnapshot = await RETWEET_COLLECTION.where('from_tweet_id', '==', props.tweet.id).get()
+        retweetSnapshot.docs.forEach(async (doc) => await doc.ref.delete())
+
+        // user collection num_tweets -1
+        USER_COLLECTION.doc(tweet.uid).update({
+          num_tweets: firebase.firestore.FieldValue.increment(-1),
+        })
+      }
+    }
+
+    const curUser = computed(() => store.state.user)
     return {
       toggleCommentModal,
       isShowCommentModal,
       moment,
       retweeting,
       liking,
+      curUser,
+      onDeleteTweet,
     }
   },
 }
