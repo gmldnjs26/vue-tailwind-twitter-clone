@@ -108,25 +108,21 @@ export default {
     const onSelectUser = async (user) => {
       selectedUser.value = user
 
-      let snapshot = await MESSAGE_COLLECTION.where('from_uid', '==', curUser.value.uid).where(
-        'to_uid',
-        '==',
-        selectedUser.value.uid
-      )
-      messages.value = snapshot.docs.map((doc) => {
-        doc.data()
-      })
+      let snapshot = await MESSAGE_COLLECTION.where('from_uid', '==', curUser.value.uid)
+        .where('to_uid', '==', selectedUser.value.uid)
+        .get()
+      messages.value = snapshot.docs.map((doc) => doc.data())
+      snapshot.docs.map((doc) => doc.data())
 
-      snapshot = await MESSAGE_COLLECTION.where('from_uid', '==', curUser.value.uid).where(
-        'to_uid',
-        '==',
-        selectedUser.value.uid
-      )
+      snapshot = await MESSAGE_COLLECTION.where('to_uid', '==', curUser.value.uid)
+        .where('from_uid', '==', selectedUser.value.uid)
+        .get()
       snapshot.docs.map((doc) => {
         messages.value.push(doc.data())
       })
 
       messages.value.sort((a, b) => a.created_at < b.created_at)
+      console.log(messages.value)
     }
 
     const onSendMessage = async () => {
