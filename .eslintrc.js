@@ -7,15 +7,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
     'plugin:prettier/recommended',
+    'prettier',
   ],
-  rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        singleQuote: true,
-        semi: false,
-        printWidth: 120,
-      },
-    ],
-  },
 }
